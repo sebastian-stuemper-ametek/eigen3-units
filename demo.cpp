@@ -6,26 +6,26 @@ int main(int argc, char* argv[])
 {
 	using namespace crobot::math;
 
-	Displacement3D r1 = { 
-		1.0 * meter, 
-		2.0 * meter, 
-		2.0 * meter 
+	Displacement3D r1 = {
+		1.0 * meter,
+		2.0 * meter,
+		2.0 * meter
 	};
 	Displacement3D r2 = r1 + r1;
 	Velocity3D     v1 = {
 		1.0 * meter_per_second,
 		2.0 * meter_per_second,
-		3.0 * meter_per_second 
+		3.0 * meter_per_second
 	};
-	Acceleration3D a1 = { 
+	Acceleration3D a1 = {
 		4.0 * meter_per_second_squared,
 		4.0 * meter_per_second_squared,
-		5.0 * meter_per_second_squared 
+		5.0 * meter_per_second_squared
 	};
 	Force3D f1 = {
-		1.0 * newton,    
+		1.0 * newton,
 		3.0 * newton,
-		5.0 * newton 
+		5.0 * newton
 	};
 	Time t1 = 6.0  * second;
 	AngularAcceleration3D omega = {
@@ -43,7 +43,7 @@ int main(int argc, char* argv[])
 		1.13 * rad,
 		0.23 * rad
 	};
-	
+
 	std::cout << "\nTime: \n"
 		<< t1 << std::endl;
 	std::cout << "\nForce 1: \n"
@@ -68,6 +68,10 @@ int main(int argc, char* argv[])
 		<< r1 + r2 << std::endl;
 	std::cout << "\nr1 - r2 = \n"
 		<< r1 - r2 << std::endl;
+	std::cout << "\nr1 * 5.0 = \n"
+		<< r1 * 5.0 << std::endl;
+	/*std::cout << "\nr1 / 5.0 = \n"
+		<< r1 / 5.0 << std::endl;*/
 	std::cout << "\nr1.sum() = \n"
 		<< r1.sum() << std::endl;
 	std::cout << "\nAcceleration 1 (a1) = \n"
@@ -84,7 +88,14 @@ int main(int argc, char* argv[])
 		<< theta << std::endl;
 	std::cout << "\nomega * t * t + theta_dot * t + theta = : \n"
 		<< omega * t1 * t1 + theta_dot * t1 + theta << std::endl;
+	std::cout << "\nutil::squared_norm(r1) = \n"
+		<< util::squared_norm(r1) << std::endl;
+	std::cout << "\nutil::norm(r1) = \n"
+		<< util::norm(r1) << std::endl;
+	//std::cout << "\nutil::normalized(r1) = \n"
+	//	<< util::normalized(r1) << std::endl;
 
+	
 
 	return 0;
 }

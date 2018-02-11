@@ -26,8 +26,6 @@
 
 #ifndef CROBOT_MATRIX_H
 #define CROBOT_MATRIX_H
-
-#define EIGEN_MATRIXBASE_PLUGIN "matrix_addons.h"
 #include <Eigen/Core>
 // for cross product
 #include <Eigen/Geometry>
@@ -45,7 +43,7 @@
 #include <boost/units/systems/si/dimensionless.hpp>
 #include <complex.h>
 
-namespace Eigen 
+namespace Eigen
 {
 	using boost::units::quantity;
 	using boost::units::multiply_typeof_helper;
@@ -92,21 +90,44 @@ namespace Eigen
 		typedef quantity<typename multiply_typeof_helper<T1, T2>::type> ReturnType;
 	};
 
-	template<typename T>
-	struct NumTraits<quantity<T>> : NumTraits < double >
+	//using boost::units::divide_typeof_helper;
+
+	//template< typename T1, typename T2 >
+	//struct ScalarBinaryOpTraits< quantity<T1>, T2,
+	//	internal::scalar_quotient_op< quantity<T1>,T2> > 
+	//{
+	//	typedef quantity<typename divide_typeof_helper<T1, T2>::type> ReturnType;
+	//};
+
+	//template< typename T1, typename T2 >
+	//struct ScalarBinaryOpTraits< T1, quantity<T2>,
+	//	internal::scalar_quotient_op< T1, quantity<T2> >> 
+	//{
+	//	typedef quantity<typename divide_typeof_helper<T1, T2>::type> ReturnType;
+	//};
+
+	//template< typename T1, typename T2 >
+	//struct ScalarBinaryOpTraits< quantity<T1>, quantity<T2>,
+	//	internal::scalar_quotient_op< quantity<T1>,	quantity<T2> >> 
+	//{
+	//	typedef quantity<typename divide_typeof_helper<T1, T2>::type> ReturnType;
+	//};
+
+	template<typename T1, typename T2>
+	struct NumTraits<quantity<T1, T2>> : NumTraits < T2 >
 	{
-		typedef quantity<T> Real;
-		typedef quantity<T> NonInteger;
-		typedef quantity<T> Nested;
+		typedef quantity<T1, T2> Real;
+		typedef quantity<T1, T2> NonInteger;
+		typedef quantity<T1, T2> Nested;
 
 		enum {
-			IsComplex             = 0,
-			IsInteger             = 0,
-			IsSigned              = 1,
+			IsComplex = 0,
+			IsInteger = 0,
+			IsSigned = 1,
 			RequireInitialization = 1,
-			ReadCost              = 1,
-			AddCost               = 3,
-			MulCost               = 3
+			ReadCost = 1,
+			AddCost = 3,
+			MulCost = 3
 		};
 	};
 
@@ -116,8 +137,8 @@ namespace Eigen
 	namespace numext {
 		template<typename Unit, typename Scalar>
 		EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE
-		typename root_typeof_helper< quantity<Unit, Scalar>, static_rational<2>>::type
-		sqrt(const quantity<Unit, Scalar> &x)
+			typename root_typeof_helper< quantity<Unit, Scalar>, static_rational<2>>::type
+			sqrt(const quantity<Unit, Scalar> &x)
 		{
 			using boost::units::sqrt;
 			return sqrt(x);
@@ -130,18 +151,18 @@ namespace Eigen
 		struct scalar_sqrt_op<quantity<Unit, Scalar>>
 		{
 			EIGEN_EMPTY_STRUCT_CTOR(scalar_sqrt_op)
-			using result_type =
-			typename root_typeof_helper< quantity<Unit, Scalar>, static_rational<2>>::type;
+				using result_type =
+				typename root_typeof_helper< quantity<Unit, Scalar>, static_rational<2>>::type;
 
-			EIGEN_DEVICE_FUNC 
-			result_type operator() (const quantity<Unit, Scalar>& a) const
+			EIGEN_DEVICE_FUNC
+				result_type operator() (const quantity<Unit, Scalar>& a) const
 			{
 				return numext::sqrt(a);
 			}
 
 			template <typename Packet>
 			EIGEN_DEVICE_FUNC
-			Packet packetOp(const Packet& a) const
+				Packet packetOp(const Packet& a) const
 			{
 				return internal::psqrt(a);
 			}
@@ -150,7 +171,7 @@ namespace Eigen
 
 	template< typename Unit, typename Scalar >
 	typename multiply_typeof_helper< quantity<Unit, Scalar>, quantity<Unit, Scalar> >::type
-	abs2_ext(const quantity<Unit, Scalar> & x)
+		abs2_ext(const quantity<Unit, Scalar> & x)
 	{
 		return x * x;
 	}
@@ -158,8 +179,8 @@ namespace Eigen
 	namespace numext
 	{
 		template<typename Unit, typename Scalar >
-		typename multiply_typeof_helper<quantity<Unit, Scalar>,	quantity<Unit, Scalar> >::type
-		abs2(const quantity<Unit, Scalar> & x)
+		typename multiply_typeof_helper<quantity<Unit, Scalar>, quantity<Unit, Scalar> >::type
+			abs2(const quantity<Unit, Scalar> & x)
 		{
 			return abs2_ext(x);
 		}
@@ -171,9 +192,9 @@ namespace Eigen
 		struct abs2_impl<quantity<Unit, Scalar>>
 		{
 			EIGEN_DEVICE_FUNC
-			static typename multiply_typeof_helper<
-			quantity<Unit, Scalar>, quantity<Unit, Scalar>>::type
-			run(const quantity<Unit, Scalar>& x) 
+				static typename multiply_typeof_helper<
+				quantity<Unit, Scalar>, quantity<Unit, Scalar>>::type
+				run(const quantity<Unit, Scalar>& x)
 			{
 				return x * x;
 			}
@@ -183,64 +204,87 @@ namespace Eigen
 		struct scalar_abs2_op<quantity<Unit, Scalar>>
 		{
 			EIGEN_EMPTY_STRUCT_CTOR(scalar_abs2_op)
-			using result_type = typename multiply_typeof_helper<
-			quantity<Unit, Scalar>,	quantity<Unit, Scalar>>::type;
+				using result_type = typename multiply_typeof_helper<
+				quantity<Unit, Scalar>, quantity<Unit, Scalar>>::type;
 
 			EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
-			result_type operator() (const quantity<Unit, Scalar>& a) const
+				result_type operator() (const quantity<Unit, Scalar>& a) const
 			{
 				return numext::abs2(a);
 			}
 
 			template<typename Packet>
 			EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
-			Packet packetOp(const Packet& a) const
+				Packet packetOp(const Packet& a) const
 			{
 				return internal::pmul(a, a);
 			}
 		};
 	} // namespace internal
-
-
-	//namespace internal
-	//{
-	//	template<typename Derived>
-	//	EIGEN_STRONG_INLINE typename NumTraits<typename traits<Derived>::Scalar>::Real
-	//	MatrixBase<Derived>::squaredNorm() const
-	//	{
-	//		return numext::real((*this).cwiseAbs2().sum());
-	//	}
-	//}
 } // namespace Eigen
 
 namespace crobot
 {
 	namespace math
 	{
+		struct util
+		{
+			template<typename T, int Row, int Col>
+			EIGEN_STRONG_INLINE
+				static typename boost::units::multiply_typeof_helper<T, T>::type
+				squared_norm(const Eigen::Matrix<T, Row, Col>& m)
+			{
+				return Eigen::numext::real(m.cwiseAbs2().sum());
+			}
 
-#define CROBOT_UNITS_STATIC_CONSTANT(name, type)                       \
-	template<bool b>                                                   \
-	struct name##_instance_t                                           \
-	{                                                                  \
-		static const type instance;                                    \
-	};                                                                 \
-																       \
-	namespace                                                          \
-	{                                                                   \
-		static const type& name = name##_instance_t<true>::instance;    \
-	}                                                                   \
-																        \
-	template<bool b>                                                    \
-	const type name##_instance_t<b>::instance
-// CROBOT_UNITS_STATIC_CONSTANT
+			template<typename T, int Row, int Col>
+			EIGEN_STRONG_INLINE
+				static typename T
+				norm(const Eigen::Matrix<T, Row, Col>& m)
+			{
+				return Eigen::numext::sqrt(squared_norm(m));
+			}
 
-#define CROBOT_BOOST_UNITS_REDEFINE( NAME , TYPE , UNIT )               \
-	using NAME##1I = boost::units::quantity<##TYPE##, int>;             \
-	using NAME##1F = boost::units::quantity<##TYPE##, float>;           \
-	using NAME##1D = boost::units::quantity<##TYPE##, double>;          \
-	using NAME     = NAME##1D;                                          \
-	CROBOT_UNITS_STATIC_CONSTANT( UNIT , TYPE )
-// CROBOT_BOOST_UNITS_REDEFINE
+			template<typename T, int Row, int Col>
+			EIGEN_STRONG_INLINE
+				static typename Eigen::Matrix<T, Row, Col>
+				normalized(const Eigen::Matrix<T, Row, Col>& m)
+			{
+				using SquaredType =
+					boost::units::multiply_typeof_helper<T, T>::type;
+				SquaredType z = squared_norm(m);
+				if (z.value() > 0.0)
+				{
+					return m;// / Eigen::numext::sqrt(z).value();
+				}
+				return m;
+			}
+		};
+
+
+#define CROBOT_UNITS_STATIC_CONSTANT(name, type)							\
+		template<bool b>                                                    \
+		struct name##_instance_t                                            \
+		{                                                                   \
+			static const type instance;                                     \
+		};                                                                  \
+																			\
+		namespace                                                           \
+		{                                                                   \
+			static const type& name = name##_instance_t<true>::instance;    \
+		}                                                                   \
+																			\
+		template<bool b>                                                    \
+		const type name##_instance_t<b>::instance
+		// CROBOT_UNITS_STATIC_CONSTANT
+
+#define CROBOT_BOOST_UNITS_REDEFINE( NAME , TYPE , UNIT )					\
+		using NAME##1I = boost::units::quantity<##TYPE##, int>;             \
+		using NAME##1F = boost::units::quantity<##TYPE##, float>;           \
+		using NAME##1D = boost::units::quantity<##TYPE##, double>;          \
+		using NAME     = NAME##1D;                                          \
+		CROBOT_UNITS_STATIC_CONSTANT( UNIT , TYPE )
+		// CROBOT_BOOST_UNITS_REDEFINE
 
 		CROBOT_BOOST_UNITS_REDEFINE(Time, boost::units::si::time, second);
 		CROBOT_BOOST_UNITS_REDEFINE(Area, boost::units::si::area, meter_squared);
@@ -249,40 +293,40 @@ namespace crobot
 #define CROBOT_PHYSICS_VECTOR_DEFINE( NAME, TYPE , UNIT )              \
 		template<typename T>                                           \
 		using NAME##Type = boost::units::quantity< TYPE , T>;          \
-    	template<typename T, int Dim>                                  \
-        using NAME##_ = Eigen::Matrix<NAME##Type<T>, Dim, 1>;          \
-        template<typename T>                                           \
-        using NAME##2_  = NAME##_ <T, 2>;                              \
-        template<typename T>                                           \
-        using NAME##3_ = NAME##_ <T, 3>;                               \
-        using NAME##2I = NAME##2_<int>;                                \
-        using NAME##2F = NAME##2_<float>;                              \
-        using NAME##2D = NAME##2_<double>;                             \
+		template<typename T, int Dim>                                  \
+		using NAME##_ = Eigen::Matrix<NAME##Type<T>, Dim, 1>;          \
+		template<typename T>                                           \
+		using NAME##2_  = NAME##_ <T, 2>;                              \
+		template<typename T>                                           \
+		using NAME##3_ = NAME##_ <T, 3>;                               \
+		using NAME##2I = NAME##2_<int>;                                \
+		using NAME##2F = NAME##2_<float>;                              \
+		using NAME##2D = NAME##2_<double>;                             \
 		using NAME##2  = NAME##2D;                                     \
-        using NAME##3I = NAME##3_<int>;                                \
-        using NAME##3F = NAME##3_<float>;                              \
-        using NAME##3D = NAME##3_<double>;                             \
+		using NAME##3I = NAME##3_<int>;                                \
+		using NAME##3F = NAME##3_<float>;                              \
+		using NAME##3D = NAME##3_<double>;                             \
 		using NAME##3  = NAME##3D;                                     \
 		CROBOT_BOOST_UNITS_REDEFINE( NAME , TYPE , UNIT )
-// CROBOT_PHYSICS_VECTOR_DEFINE( NAME )
-        
-		CROBOT_PHYSICS_VECTOR_DEFINE(Force,        boost::units::si::force,        newton);
-		CROBOT_PHYSICS_VECTOR_DEFINE(Torque,       boost::units::si::energy,       joule);
-		CROBOT_PHYSICS_VECTOR_DEFINE(Displacement, boost::units::si::length,       meter);
-		CROBOT_PHYSICS_VECTOR_DEFINE(Velocity,     boost::units::si::velocity,     meter_per_second);
+		// CROBOT_PHYSICS_VECTOR_DEFINE( NAME )
+
+		CROBOT_PHYSICS_VECTOR_DEFINE(Force, boost::units::si::force, newton);
+		CROBOT_PHYSICS_VECTOR_DEFINE(Torque, boost::units::si::energy, joule);
+		CROBOT_PHYSICS_VECTOR_DEFINE(Displacement, boost::units::si::length, meter);
+		CROBOT_PHYSICS_VECTOR_DEFINE(Velocity, boost::units::si::velocity, meter_per_second);
 		CROBOT_PHYSICS_VECTOR_DEFINE(Acceleration, boost::units::si::acceleration, meter_per_second_squared);
 		using angular_velocity_dimension =
-		boost::units::derived_dimension<boost::units::time_base_dimension, -1>::type;
-		using angular_velocity = 
-		boost::units::unit<angular_velocity_dimension, boost::units::si::system>;
+			boost::units::derived_dimension<boost::units::time_base_dimension, -1>::type;
+		using angular_velocity =
+			boost::units::unit<angular_velocity_dimension, boost::units::si::system>;
 		CROBOT_PHYSICS_VECTOR_DEFINE(AngularVelocity, angular_velocity, rad_per_second);
 		using angular_acceleration_dimension =
-		boost::units::derived_dimension<boost::units::time_base_dimension, -2>::type;
-		using angular_acceleration = 
-		boost::units::unit<angular_acceleration_dimension, boost::units::si::system>;
+			boost::units::derived_dimension<boost::units::time_base_dimension, -2>::type;
+		using angular_acceleration =
+			boost::units::unit<angular_acceleration_dimension, boost::units::si::system>;
 		CROBOT_PHYSICS_VECTOR_DEFINE(AngularAcceleration, angular_acceleration, rad_per_second_squared);
 		using angle =
-		boost::units::unit<boost::units::dimensionless_type, boost::units::si::system>;
+			boost::units::unit<boost::units::dimensionless_type, boost::units::si::system>;
 		CROBOT_PHYSICS_VECTOR_DEFINE(Angle, angle, rad);
 	}
 }
