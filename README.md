@@ -1,4 +1,7 @@
 # eigen3-units
+
+[![Build Status](https://travis-ci.org/iastate-robotics/eigen3-units.svg?branch=master)](https://travis-ci.org/iastate-robotics/eigen3-units)
+
 A compile time units conversion and dimension checking header file for Eigen3
 
 ```
@@ -17,14 +20,14 @@ Displacement 1 Transpose:
   1 m   2 m   2 m
 
 Force 1 Columnwise Square:
-   1 m^2 kg^2 s^-4
-   9 m^2 kg^2 s^-4
-  25 m^2 kg^2 s^-4
+       1 m^2 kg^2 s^-4
+       9 m^2 kg^2 s^-4
+      25 m^2 kg^2 s^-4
 
 Force 1 Columnwise Square Root:
-      1 m^(1/2) kg^(1/2) s^-1
-1.73205 m^(1/2) kg^(1/2) s^-1
-2.23607 m^(1/2) kg^(1/2) s^-1
+        1 m^(1/2) kg^(1/2) s^-1
+  1.73205 m^(1/2) kg^(1/2) s^-1
+  2.23607 m^(1/2) kg^(1/2) s^-1
 
 f1.dot(r1):
 17 J
@@ -52,6 +55,11 @@ r1 - r2 =
   -2 m
   -2 m
 
+r1 * 5.0 =
+   5 m
+  10 m
+  10 m
+
 r1.sum() =
 5 m
 
@@ -76,17 +84,43 @@ AngularVelocity (theta_dot):
    1 Hz
 
 AngularAcceleration (omega):
-	 3 s^-2
-	 2 s^-2
-	 1 s^-2
+     3 s^-2
+     2 s^-2
+     1 s^-2
 
 theta =
-  3.13 dimensionless
-  1.13 dimensionless
-  0.23 dimensionless
+    3.13 dimensionless
+    1.13 dimensionless
+    0.23 dimensionless
 
 omega * t * t + theta_dot * t + theta = :
   129.13 dimensionless
    85.13 dimensionless
    42.23 dimensionless
+
+r1 * 5.0
+   5 m
+  10 m
+  10 m
+
+5.0 * r1
+   5 m
+  10 m
+  10 m
+
+r1 / 5.0
+  0.2 m
+  0.4 m
+  0.4 m
+
+util::squared_norm(r1) =
+9 m^2
+
+util::norm(r1) =
+3 m
+
+util::normalized(r1) =
+  0.333333 m
+  0.666667 m
+  0.666667 m⏎
 ```
