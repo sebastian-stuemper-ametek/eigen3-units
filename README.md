@@ -1,6 +1,7 @@
 # eigen3-units
 
 [![Build Status](https://travis-ci.org/iastate-robotics/eigen3-units.svg?branch=master)](https://travis-ci.org/iastate-robotics/eigen3-units)
+[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](../master/LICENSE)
 
 A compile time units conversion and dimension checking header file for Eigen3
 
