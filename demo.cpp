@@ -68,6 +68,10 @@ int main(int argc, char* argv[])
 		<< r1 + r2 << std::endl;
 	std::cout << "\nr1 - r2 = \n"
 		<< r1 - r2 << std::endl;
+	std::cout << "\nr1 * 5.0 = \n"
+		<< r1 * 5.0 << std::endl;
+	/*std::cout << "\nr1 / 5.0 = \n"
+		<< r1 / 5.0 << std::endl;*/
 	std::cout << "\nr1.sum() = \n"
 		<< r1.sum() << std::endl;
 	std::cout << "\nAcceleration 1 (a1) = \n"
@@ -93,7 +97,6 @@ int main(int argc, char* argv[])
 	std::cout << "\nutil::norm(r1) = \n"
 		<< util::norm(r1) << std::endl;
 	std::cout << "\nutil::normalized(r1) = \n"
-		<< util::normalized(r1) << std::endl;
 
 	return 0;
 }
