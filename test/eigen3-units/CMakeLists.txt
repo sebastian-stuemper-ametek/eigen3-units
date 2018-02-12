@@ -1,6 +1,6 @@
 file(GLOB SRCS *.cpp)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 -Wall -fprofile-arcs -ftest-coverage")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 -Wall")
 # set(CMAKE_CXX_OUTPUT_EXTENSION_REPLACE 1)
 
 find_package (Boost REQUIRED)

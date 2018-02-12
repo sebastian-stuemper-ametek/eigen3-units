@@ -259,6 +259,13 @@ namespace crobot
 				return m;
 			}
 
+			template<typename T>
+			EIGEN_STRONG_INLINE
+			static bool
+			is_approx(const T& lhs, const T& rhs, const double& prec)
+			{
+				return (((lhs - rhs) * (lhs - rhs)).value() <= prec);
+			}
 
 			template<typename T, int Row, int Col>
 			EIGEN_STRONG_INLINE
@@ -292,7 +299,7 @@ namespace crobot
 																        \
 	template<bool b>                                                    \
 	const type name##_instance_t<b>::instance
-		// CROBOT_UNITS_STATIC_CONSTANT
+// CROBOT_UNITS_STATIC_CONSTANT
 
 #define CROBOT_BOOST_UNITS_REDEFINE( NAME , TYPE , UNIT )               \
 	using NAME##1I = boost::units::quantity< TYPE , int>;               \
@@ -300,11 +307,12 @@ namespace crobot
 	using NAME##1D = boost::units::quantity< TYPE , double>;            \
 	using NAME     = NAME##1D;                                          \
 	CROBOT_UNITS_STATIC_CONSTANT( UNIT , TYPE )
-		// CROBOT_BOOST_UNITS_REDEFINE
+// CROBOT_BOOST_UNITS_REDEFINE
 
-		CROBOT_BOOST_UNITS_REDEFINE(Time, boost::units::si::time, second);
-		CROBOT_BOOST_UNITS_REDEFINE(Area, boost::units::si::area, meter_squared);
-		CROBOT_BOOST_UNITS_REDEFINE(Frequency, boost::units::si::frequency, hertz);
+	CROBOT_BOOST_UNITS_REDEFINE(Time, boost::units::si::time, second);
+	CROBOT_BOOST_UNITS_REDEFINE(Area, boost::units::si::area, meter_squared);
+	CROBOT_BOOST_UNITS_REDEFINE(Frequency, boost::units::si::frequency, hertz);
+	CROBOT_BOOST_UNITS_REDEFINE(Energy, boost::units::si::energy, joule);
 
 #define CROBOT_PHYSICS_VECTOR_DEFINE( NAME, TYPE , UNIT )              \
 		template<typename T>                                           \
@@ -327,7 +335,7 @@ namespace crobot
 		// CROBOT_PHYSICS_VECTOR_DEFINE( NAME )
 
 		CROBOT_PHYSICS_VECTOR_DEFINE(Force, boost::units::si::force, newton);
-		CROBOT_PHYSICS_VECTOR_DEFINE(Torque, boost::units::si::energy, joule);
+		CROBOT_PHYSICS_VECTOR_DEFINE(Torque, boost::units::si::energy, newton_meter);
 		CROBOT_PHYSICS_VECTOR_DEFINE(Displacement, boost::units::si::length, meter);
 		CROBOT_PHYSICS_VECTOR_DEFINE(Velocity, boost::units::si::velocity, meter_per_second);
 		CROBOT_PHYSICS_VECTOR_DEFINE(Acceleration, boost::units::si::acceleration, meter_per_second_squared);
