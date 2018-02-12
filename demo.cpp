@@ -97,6 +97,7 @@ int main(int argc, char* argv[])
 	std::cout << "\nutil::norm(r1) = \n"
 		<< util::norm(r1) << std::endl;
 	std::cout << "\nutil::normalized(r1) = \n"
+        << util::normalized(r1);
 
 	return 0;
 }

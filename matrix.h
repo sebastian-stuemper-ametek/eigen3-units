@@ -167,86 +167,6 @@ namespace Eigen
 			}
 		};
 	} // namespace internal
-	
-	// multiply
-	//namespace internal
-	//{
-	//	template<typename T1, typename T2>
-	//	struct scalar_product_op<quantity<T1>, T2>
-	//	{
-	//		using result_type =
-	//		typename ScalarBinaryOpTraits<T1, T2, scalar_product_op>::ReturnType;
-	//		EIGEN_EMPTY_STRUCT_CTOR(scalar_product_op)
-	//		EIGEN_DEVICE_FUNC
-	//		result_type operator() (const quantity<T1>& a, const T2& b) const 
-	//		{
-	//			return a * b; 
-	//		}
-	//		template<typename Packet>
-	//		EIGEN_DEVICE_FUNC
-	//		Packet packetOp(const Packet& a, const Packet& b) const
-	//		{
-	//			return internal::pmul(a, b);
-	//		}
-	//		template<typename Packet>
-	//		EIGEN_DEVICE_FUNC
-	//		result_type predux(const Packet& a) const
-	//		{
-	//			return internal::predux_mul(a);
-	//		}
-	//	};
-
-	//	template<typename T1, typename T2>
-	//	struct scalar_product_op<T1, quantity<T2>>
-	//	{
-	//		using result_type =
-	//		typename ScalarBinaryOpTraits<T1, T2, scalar_product_op>::ReturnType;
-	//		EIGEN_EMPTY_STRUCT_CTOR(scalar_product_op)
-	//		EIGEN_DEVICE_FUNC
-	//		result_type operator() (const T1& a, const quantity<T2>& b) const
-	//		{
-	//			return a * b;
-	//		}
-	//		template<typename Packet>
-	//		EIGEN_DEVICE_FUNC
-	//			Packet packetOp(const Packet& a, const Packet& b) const
-	//		{
-	//			return internal::pmul(a, b);
-	//		}
-	//		template<typename Packet>
-	//		EIGEN_DEVICE_FUNC
-	//			result_type predux(const Packet& a) const
-	//		{
-	//			return internal::predux_mul(a);
-	//		}
-	//	};
-
-	//	template<typename T1, typename T2>
-	//	struct scalar_product_op<quantity<T1>, quantity<T2>>
-	//	{
-	//		using result_type =
-	//		typename ScalarBinaryOpTraits<T1, T2, scalar_product_op>::ReturnType;
-	//		EIGEN_EMPTY_STRUCT_CTOR(scalar_product_op)
-	//		EIGEN_DEVICE_FUNC
-	//		result_type operator() (const quantity<T1>& a, const quantity<T2>& b) const
-	//		{
-	//			return a * b;
-	//		}
-	//		template<typename Packet>
-	//		EIGEN_DEVICE_FUNC
-	//			Packet packetOp(const Packet& a, const Packet& b) const
-	//		{
-	//			return internal::pmul(a, b);
-	//		}
-	//		template<typename Packet>
-	//		EIGEN_DEVICE_FUNC
-	//			result_type predux(const Packet& a) const
-	//		{
-	//			return internal::predux_mul(a);
-	//		}
-	//	};
-	//}
-	
 
 	template< typename Unit, typename Scalar >
 	typename multiply_typeof_helper< quantity<Unit, Scalar>, quantity<Unit, Scalar> >::type
@@ -310,24 +230,24 @@ namespace crobot
 		{
 			template<typename T, int Row, int Col>
 			EIGEN_STRONG_INLINE
-				static typename boost::units::multiply_typeof_helper<T, T>::type
-				squared_norm(const Eigen::Matrix<T, Row, Col>& m)
+			static typename boost::units::multiply_typeof_helper<T, T>::type
+			squared_norm(const Eigen::Matrix<T, Row, Col>& m)
 			{
 				return Eigen::numext::real(m.cwiseAbs2().sum());
 			}
 
 			template<typename T, int Row, int Col>
 			EIGEN_STRONG_INLINE
-				static typename T
-				norm(const Eigen::Matrix<T, Row, Col>& m)
+			static T
+			norm(const Eigen::Matrix<T, Row, Col>& m)
 			{
 				return Eigen::numext::sqrt(squared_norm(m));
 			}
 
 			template<typename T, int Row, int Col>
 			EIGEN_STRONG_INLINE
-				static typename Eigen::Matrix<T, Row, Col>
-				normalized(const Eigen::Matrix<T, Row, Col>& m)
+			static typename Eigen::Matrix<T, Row, Col>
+			normalized(const Eigen::Matrix<T, Row, Col>& m)
 			{
 				using SquaredType =
 					typename boost::units::multiply_typeof_helper<T, T>::type;
@@ -357,9 +277,9 @@ namespace crobot
 // CROBOT_UNITS_STATIC_CONSTANT
 
 #define CROBOT_BOOST_UNITS_REDEFINE( NAME , TYPE , UNIT )               \
-	using NAME##1I = boost::units::quantity<##TYPE##, int>;             \
-	using NAME##1F = boost::units::quantity<##TYPE##, float>;           \
-	using NAME##1D = boost::units::quantity<##TYPE##, double>;          \
+	using NAME##1I = boost::units::quantity< TYPE , int>;               \
+	using NAME##1F = boost::units::quantity< TYPE , float>;             \
+	using NAME##1D = boost::units::quantity< TYPE , double>;            \
 	using NAME     = NAME##1D;                                          \
 	CROBOT_UNITS_STATIC_CONSTANT( UNIT , TYPE )
 // CROBOT_BOOST_UNITS_REDEFINE

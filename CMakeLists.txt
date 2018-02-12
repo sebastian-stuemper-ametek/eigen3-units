@@ -18,6 +18,10 @@ set(CMAKE_CXX_OUTPUT_EXTENSION_REPLACE 1)
 
 file(GLOB SOURCE_FILES *.cpp)
 
+find_package (Boost REQUIRED)
+include_directories( ${Boost_INCLUDE_DIR} )
+
+
 # find_package(Eigen3 REQUIRED)
 if(APPLE)
     # for MacOS X
@@ -29,5 +33,8 @@ if(UNIX AND NOT APPLE)
 endif()
 include_directories ( ${EIGEN3_INCLUDE_DIR} )
 
+include_directories("./")
+
 add_executable( eigen3-units ${SOURCE_FILES} )
+target_link_libraries( eigen3-units LINK_PUBLIC ${Boost_LIBRARIES} )
 add_subdirectory(test)

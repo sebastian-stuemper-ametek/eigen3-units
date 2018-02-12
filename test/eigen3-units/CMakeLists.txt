@@ -1,13 +1,17 @@
-FILE(GLOB SRCS *.cpp)
+file(GLOB SRCS *.cpp)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 -Wall -fprofile-arcs -ftest-coverage")
 # set(CMAKE_CXX_OUTPUT_EXTENSION_REPLACE 1)
 
-ADD_EXECUTABLE(test-eigen3-units ${SRCS})
+find_package (Boost REQUIRED)
+include_directories( ${Boost_INCLUDE_DIR} )
 
-TARGET_LINK_LIBRARIES(test-eigen3-units
+add_executable(test-eigen3-units ${SRCS})
+
+target_link_libraries(test-eigen3-units
 	libgtest
 	libgmock
+	${Boost_LIBRARIES}
 )
 
 add_test(NAME test-eigen3-units	COMMAND test-eigen3-units)
