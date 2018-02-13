@@ -11,7 +11,7 @@ A compile time units conversion and dimension checking header file for Eigen3
 
 ### Unit Test
 
-- [x] Vector operator `+` `-` `*` `/`
+- [x] Vector operator `+` `-` `+=` `-=`
 - [x] Scalar `*` Vector
 - [x] Vector `*` Scalar
 - [x] Vector `/` Scalar
@@ -24,14 +24,14 @@ A compile time units conversion and dimension checking header file for Eigen3
 - [x] Vector.`cwiseSqrt()`
 - [x] Vector.`cwiseAbs2()`
 - [x] Vector.`sum()`
-- [x] util::`squared_norm(Vector)`
-- [x] util::`norm(Vector)`
-- [x] util::`normalized(Vector)`
-- [ ] Scalar operator `+` `-` `*` `/`
-- [ ] Scalar operator `+=` `-=` `*=` `/=`
-- [ ] Double `*` Scalar
-- [ ] Scalar `*` Double, Scalar `*=` Double
-- [ ] Scalar `/` Double, Scalar `/=` Double
+- [x] `util::squared_norm(Vector)`
+- [x] `util::norm(Vector)`
+- [x] `util::normalized(Vector)`
+- [x] Scalar operator `+` `-` `*` `/`
+- [x] Scalar operator `+=` `-=`
+- [x] Double `*` Scalar
+- [x] Scalar `*` Double, Scalar `*=` Double
+- [x] Scalar `/` Double, Scalar `/=` Double
 
 ### Demo
 
