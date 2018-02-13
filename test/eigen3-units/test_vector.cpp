@@ -23,6 +23,26 @@ TEST(Vector, SubOperator)
 	ASSERT_TRUE(util::is_approx(d , d_expect, 0.01));
 }
 
+TEST(Vector, AddEqualOperator)
+{
+	Displacement3D d1 = {1.0 * meter, 2.0 * meter, 3.0 * meter};
+	Displacement3D d2 = {4.0 * meter, 5.0 * meter, 6.0 * meter};
+	d1 += d2;
+	Displacement3D d_expect = {5.0 * meter, 7.0 * meter, 9.0 * meter};
+
+	ASSERT_TRUE(util::is_approx(d1 , d_expect, 0.01));
+}
+
+TEST(Vector, SubEqualOperator)
+{
+	Displacement3D d1 = {1.0 * meter, 2.0 * meter, 3.0 * meter};
+	Displacement3D d2 = {4.0 * meter, 5.0 * meter, 6.0 * meter};
+	d1 -= d2;
+	Displacement3D d_expect = {-3.0 * meter, -3.0 * meter, -3.0 * meter};
+
+	ASSERT_TRUE(util::is_approx(d1 , d_expect, 0.01));
+}
+
 TEST(Vector, CrossProduct)
 {
 	Force3D        force   = {1.0 * newton, 2.0 * newton, 2.0 * newton};
@@ -32,6 +52,17 @@ TEST(Vector, CrossProduct)
 
 	ASSERT_TRUE(util::is_approx(torque, torque_expect, 0.01));
 }
+
+
+// TEST(Vector, CrossProduct)
+// {
+// 	Force3D        force   = {1.0 * newton, 2.0 * newton, 2.0 * newton};
+// 	Displacement3D disp    = {1.0 * meter,  3.0 * meter,  5.0 * meter};
+// 	Torque3D       torque  = disp.cross3(force);
+// 	Torque3D torque_expect = {-4.0 * newton_meter, 3.0 * newton_meter, -1.0 * newton_meter};
+
+// 	ASSERT_TRUE(util::is_approx(torque, torque_expect, 0.01));
+// }
 
 TEST(Vector, DotProduct)
 {
@@ -71,3 +102,90 @@ TEST(Vector, ColWiseSqrt)
 	ASSERT_TRUE(util::is_approx(result, omega, 0.01));
 }
 
+TEST(Vector, SquaredNorm)
+{
+	Displacement3D d = {
+		1.0 * meter,
+		2.0 * meter,
+		2.0 * meter};
+	Area d_squared_norm = util::squared_norm(d);
+
+	Area d_sn_expect = 9.0 * meter_squared;
+	ASSERT_TRUE(util::is_approx(d_squared_norm, d_sn_expect, 0.01));
+}
+
+TEST(Vector, Norm)
+{
+	Displacement3D d = {
+		1.0 * meter,
+		2.0 * meter,
+		2.0 * meter};
+	Displacement d_norm = util::norm(d);
+
+	Displacement d_expect = 3.0 * meter;
+	ASSERT_TRUE(util::is_approx(d_norm, d_expect, 0.01));
+}
+
+TEST(Vector, Normalized)
+{
+	Displacement3D d = {
+		1.0 * meter,
+		2.0 * meter,
+		2.0 * meter};
+	Displacement3D d_normalized = util::normalized(d);
+
+	Displacement3D d_expect = {
+		1.0 / 3.0 * meter,
+		2.0 / 3.0 * meter,
+		2.0 / 3.0 * meter};
+	ASSERT_TRUE(util::is_approx(d_normalized, d_expect, 0.01));
+}
+
+TEST(Vector, ScalarMultiplyVector)
+{
+	Displacement3D d = {
+		1.0 * meter,
+		2.0 * meter,
+		2.0 * meter};
+	Force s = 4.0 * newton;
+	Torque3D result = s * d;
+
+	Torque3D expect = {
+		1.0 * 4.0 * newton_meter,
+		2.0 * 4.0 * newton_meter,
+		2.0 * 4.0 * newton_meter};
+	ASSERT_TRUE(util::is_approx(result, expect, 0.01));
+}
+
+TEST(Vector, VectorMultiplyScalar)
+{
+	Displacement3D d = {
+		1.0 * meter,
+		2.0 * meter,
+		2.0 * meter};
+	Force s = 4.0 * newton;
+	Torque3D result = d * s;
+
+	Torque3D expect = {
+		1.0 * 4.0 * newton_meter,
+		2.0 * 4.0 * newton_meter,
+		2.0 * 4.0 * newton_meter};
+	ASSERT_TRUE(util::is_approx(result, expect, 0.01));
+}
+
+TEST(Vector, VectorDivideScalar)
+{
+	Torque3D d = {
+		1.0 * 4.0 * newton_meter,
+		2.0 * 4.0 * newton_meter,
+		2.0 * 4.0 * newton_meter};
+
+	Force s = 4.0 * newton;
+	Displacement3D result = d / s;
+
+	Displacement3D expect = {
+		1.0 * meter,
+		2.0 * meter,
+		2.0 * meter};
+	ASSERT_TRUE(util::is_approx(result, expect, 0.01));
+}

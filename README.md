@@ -1,9 +1,39 @@
 # eigen3-units
 
-[![Build Status](https://travis-ci.org/iastate-robotics/eigen3-units.svg?branch=master)](https://travis-ci.org/iastate-robotics/eigen3-units)
-[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](../master/LICENSE)
+[![Build Status](https://travis-ci.org/iastate-robotics/eigen3-units.svg?branch=master)](https://travis-ci.org/iastate-robotics/eigen3-units) [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](../master/LICENSE)
 
 A compile time units conversion and dimension checking header file for Eigen3
+
+### Dependency
+
+* Boost Units
+* Eigen3 3.3+
+
+### Unit Test
+
+- [x] Vector operator `+` `-` `*` `/`
+- [x] Scalar `*` Vector
+- [x] Vector `*` Scalar
+- [x] Vector `/` Scalar
+- [x] Double `*` Vector
+- [x] Vector `*` Double, Vector `*=` Double
+- [x] Vector `/` Double, Vector `/=` Double
+- [x] Vector.`cross()`
+- [ ] Vector.`cross3()`
+- [x] Vector.`dot()`
+- [x] Vector.`cwiseSqrt()`
+- [x] Vector.`cwiseAbs2()`
+- [x] Vector.`sum()`
+- [x] util::`squared_norm(Vector)`
+- [x] util::`norm(Vector)`
+- [x] util::`normalized(Vector)`
+- [ ] Scalar operator `+` `-` `*` `/`
+- [ ] Scalar operator `+=` `-=` `*=` `/=`
+- [ ] Double `*` Scalar
+- [ ] Scalar `*` Double, Scalar `*=` Double
+- [ ] Scalar `/` Double, Scalar `/=` Double
+
+### Demo
 
 ```
 Time:
@@ -123,5 +153,6 @@ util::norm(r1) =
 util::normalized(r1) =
   0.333333 m
   0.666667 m
-  0.666667 m⏎
+  0.666667 m
 ```
+

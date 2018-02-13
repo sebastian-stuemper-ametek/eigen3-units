@@ -21,19 +21,6 @@ file(GLOB SOURCE_FILES *.cpp)
 find_package (Boost REQUIRED)
 include_directories( ${Boost_INCLUDE_DIR} )
 
-
-# # find_package(Eigen3 REQUIRED)
-# if(APPLE)
-#     # for MacOS X
-#     set( EIGEN3_INCLUDE_DIR "//usr//local//include//eigen3" )
-# endif()
-# if(UNIX AND NOT APPLE)
-#     # for Linux, BSD, Solaris, Minix
-#     set( EIGEN3_INCLUDE_DIR "//usr//include//eigen3" )
-# endif()
-# include_directories ( ${EIGEN3_INCLUDE_DIR} )
-
-
 include_directories("./")
 include_directories("./lib/eigen/")
 
